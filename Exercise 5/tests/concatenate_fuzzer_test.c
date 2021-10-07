@@ -1,4 +1,4 @@
-#include "/mnt/c/Users/odink/OneDrive - NTNU/Sikkerhet og kryptografi/Exercise 5/concatenate.h"
+#include "concatenate.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
