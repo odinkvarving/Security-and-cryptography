@@ -41,5 +41,9 @@ char *replace(char string[]) {
             buffer[i + offset] = string[i];
         }
     }
-    return buffer;
+    char *final = buffer;
+    
+    free(buffer);
+    
+    return final;
 }
