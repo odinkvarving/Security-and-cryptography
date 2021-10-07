@@ -1,0 +1,4 @@
+add_executable(concatenate_fuzzer_test concatenate_fuzzer_test.c)
+target_link_libraries(concatenate_fuzzer_test concatenate)
+target_compile_options(concatenate_fuzzer_test PRIVATE -fsanitize=address,fuzzer)
+target_link_options(concatenate_fuzzer_test PRIVATE -fsanitize=address,fuzzer)
