@@ -26,5 +26,5 @@ jobs:
       run: |
         CC=clang cmake ..
         make
-        ./tests/utility_fuzzer_test -max_total_time=60
+        ./tests/concatenate_fuzzer_test -max_total_time=60 -detect_leaks=0
       
