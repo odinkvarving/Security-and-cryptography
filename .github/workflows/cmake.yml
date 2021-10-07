@@ -22,6 +22,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Fuzzer and sanitizer
+      working-directory: Exercise 5/build
       run: |
         CC=clang cmake ..
         make
