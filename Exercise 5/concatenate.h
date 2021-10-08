@@ -24,6 +24,7 @@ char *replace(char string[]) {
     }
 
     int offset = 0;
+    
     char *buffer = malloc(5 * strlen(string) * sizeof(char) + 1);
 
     for(int i = 0; i < (int)strlen(string); i++) {
