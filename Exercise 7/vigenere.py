@@ -52,11 +52,13 @@ def encrypt(message, cipher):
             if(counter == len(m_indexes)):
                 break
 
-    print("Indexes of encrypted characters: ", encrypted_chars)
+    print("\nIndexes of encrypted characters: ", encrypted_chars)
     
     encryption = find_chars(encrypted_chars)
     
-    print("Encrypted characters: ", encryption)
+    string = "".join(encryption)
+    
+    print("Encrypted message: ", string.upper())
 
 def decrypt(message, cipher):
 
@@ -85,12 +87,12 @@ def decrypt(message, cipher):
             if(counter == len(m_indexes)):
                 break
 
-    print("Indexes of encrypted characters: ", encrypted_chars)
+    print("\nIndexes of encrypted characters: ", encrypted_chars)
     
     encryption = find_chars(encrypted_chars)
     string = "".join(encryption)
     
-    print("Decrypted characters: ", string.lower())
+    print("Decrypted message: ", string.lower())
     
 def main():
 
