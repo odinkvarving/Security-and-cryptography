@@ -15,27 +15,14 @@ def find_indexes(text):
     return indexes
 
 def find_chars(indexes):
-
     chars = []
-    counter = 0
+    
     for i in indexes:
         for j in range(len(alphabet)):
-            counter = 0
-            if(not i > len(alphabet)):
-                if(i == j):
-                    chars.append(alphabet[j].upper())
-                    break
-            else:
-
-                while(counter != i):
-                    for k in range(len(alphabet)):
-                        
-                        counter += 1
-                        if(counter == i):
-                            chars.append(alphabet[k + 1].upper())
-                            break
-                    break
-         
+            if(i == j):
+                chars.append(alphabet[j].upper())
+                break
+                 
     return chars
 
 def encrypt(message, cipher):
@@ -51,20 +38,64 @@ def encrypt(message, cipher):
     while(counter != len(m_indexes)):
         for j in range(len(cipher)):
             
-            encrypted_chars.append((m_indexes[counter] + c_indexes[j])) 
+            new_index = (m_indexes[counter] + c_indexes[j])
+            
+            if(new_index > 28):
+                new_index -= 29
+                encrypted_chars.append(new_index)
+
+            else:    
+                encrypted_chars.append((m_indexes[counter] + c_indexes[j])) 
+            
             counter += 1
 
             if(counter == len(m_indexes)):
                 break
 
     print("Indexes of encrypted characters: ", encrypted_chars)
+    
     encryption = find_chars(encrypted_chars)
+    
     print("Encrypted characters: ", encryption)
+
+def decrypt(message, cipher):
+
+    message = message.replace(" ", "").lower()
+
+    encrypted_chars = []
+                                                        
+    m_indexes = find_indexes(message)
+    c_indexes = find_indexes(cipher)
+
+    counter = 0
+    while(counter != len(m_indexes)):
+        for j in range(len(cipher)):
+            
+            new_index = (m_indexes[counter] - c_indexes[j])
+            
+            if(new_index < 0):
+                new_index += 29
+                encrypted_chars.append(new_index)
+
+            else:    
+                encrypted_chars.append((m_indexes[counter] - c_indexes[j])) 
+            
+            counter += 1
+
+            if(counter == len(m_indexes)):
+                break
+
+    print("Indexes of encrypted characters: ", encrypted_chars)
+    
+    encryption = find_chars(encrypted_chars)
+    string = "".join(encryption)
+    
+    print("Decrypted characters: ", string.lower())
     
 def main():
 
-    #encrypt("fisk", "lat")
     encrypt("Snart helg", "torsk")
+    decrypt("QZQOBVCAFFKSDC", "brus")
     
 
 if __name__ == "__main__":
