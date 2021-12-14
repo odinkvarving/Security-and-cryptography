@@ -1,45 +1,45 @@
 import math
 
-def create_table():
-    table = {}
+def create_alphabet():
+    alphabet = {}
 
     for i in range(0, 26):
-        table[chr(ord("A") + i)] = i
+        alphabet[chr(ord("A") + i)] = i
 
-    table["Æ"] = 26
-    table["Ø"] = 27
-    table["Å"] = 28
+    alphabet["Æ"] = 26
+    alphabet["Ø"] = 27
+    alphabet["Å"] = 28
 
-    return table
+    return alphabet
 
 
-def decrypt(message, table, k):
+def decrypt(message, alphabet, k):
     plaintext = ""
 
     for i in range(len(message)):
         if message[i] != " ":
-            y = int(table[message[i]])
-            x = (y - k) % len(table)
-            plaintext += list(table)[x]
+            y = int(alphabet[message[i]])
+            x = (y - k) % len(alphabet)
+            plaintext += list(alphabet)[x]
 
     return plaintext.lower()
 
 
-def brute_force(message, table):
-    for k in range(len(table)):
-        decrypted = decrypt(message, table, k)
+def brute_force(message, alphabet):
+    for k in range(len(alphabet)):
+        decrypted = decrypt(message, alphabet, k)
         print(f"k: {k}\t{decrypted}")
 
 
 def main():
 
     message = "YÆVFB VBVFR ÅVBV"
-    table = create_table()
-    brute_force(message, table)
+    alphabet = create_alphabet()
+    brute_force(message, alphabet)
 
     k = 17
     print("\nThe decrypted message: ")
-    plaintext = decrypt(message, table, k)
+    plaintext = decrypt(message, alphabet, k)
     print(f"k: {k}\t{plaintext}")
 
 

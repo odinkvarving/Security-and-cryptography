@@ -5,12 +5,15 @@ import numpy as np
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "æ", "ø", "å"]
 
-def convert_to_chiffer():
+def substitution_function(i):
+    return (11 * i - 5) % 29
+
+def generate_substitutionchiffer():
 
     alphabet_to_chiffer = []
 
     for i in range(len(alphabet)):
-        number = (11 * i - 5) % 29
+        number = substitution_function(i)
         alphabet_to_chiffer.append(alphabet[number].upper())
 
     print(alphabet_to_chiffer)
@@ -40,7 +43,7 @@ def inversePermutation(arr, size):
     
     print(inverse_list)
 
-def find_chiffer_for_string(string, chiffer):
+def encrypt_string(string, chiffer):
     letter_indexes = []
     encrypted_string = []
 
@@ -70,7 +73,7 @@ def decrypt_chiffer_string(string, chiffer):
 
 def main():
 
-    chiffer = convert_to_chiffer()
+    substitution_chiffer = generate_substitutionchiffer()
 
     permutation = find_permutation()
 
@@ -83,10 +86,10 @@ def main():
     inversePermutation(permutation, size)
 
     print("\nEncrypted string using simple substitution-chiffer: ")
-    find_chiffer_for_string("alice", chiffer)
+    encrypt_string("alice", substitution_chiffer)
 
     print("\nDecrypted string: ")
-    decrypt_chiffer_string("SIØPBE", chiffer)
+    decrypt_chiffer_string("SIØPBE", substitution_chiffer)
 
 
 if __name__ == "__main__":
