@@ -1,11 +1,11 @@
-from ElGamal import multiplicative_inverse
+# Eksempel på oppgave kan være å finne alle logaritmene log α β i Z11
+# Her må man manuelt endre a og b til den dekker alle kombinasjoner av beta 1-10 og alpha 2-10 (krysstabell med beta øverst og alpha på siden)
 
 
-k = 5
-a = 3
-b = 19
-p = 59
-
+k = 10  # self-chosen integer value for number of exponents to test for (never needs to exceed p -1)
+a = 6  # base
+b = 3 # power
+p = 41 # modulo
 
 def multiplicative_inverse(x, power, phi):
     a = pow(x, power, phi)
@@ -14,8 +14,8 @@ def multiplicative_inverse(x, power, phi):
 
 def shanks_algorithm(k, a, b, p): 
 
-    common_found = False
-    
+    print("\nUsing Shanks algorithm to find an x that solves %s^x ≅ %s mod %s ..." % (a, b, p))
+
     first_list = {}
     for i in range(1, k):
         res = (a ** i) % p
@@ -46,7 +46,7 @@ def list_contains(list1, list2):
             if(f == h):
 
                 result = (e + (g * (-1)))
-                print("\n%s^%s ≅ %s and %s(%s)^%s ≅ %s" % (a, e, f, b, a, g, h))
+                print("\nFound two common values in the list: %s^%s ≅ %s and %s(%s)^%s ≅ %s" % (a, e, f, b, a, g, h))
                 print("\nThese are congruent modulo %s and can be re-written to: %s^%s ≅ %s" % (p, a, result, f))
 
                 return (e + (g * (-1)))

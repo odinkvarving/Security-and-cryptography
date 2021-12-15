@@ -2,9 +2,9 @@ import math
 
 # n = pq
 
-p = 233
-q = 167
-b = 3
+p = 23  
+q = 19
+b = 13  # e is also used here
 
 def RSA(p, q, message):
 
@@ -21,14 +21,16 @@ def RSA(p, q, message):
 
     check_relatively_prime(b, phi)
 
-    a = multiplicative_inverse(b, phi)
+    get_public_keys(n, b)
+
+    a = multiplicative_inverse(b, phi)     # d is also used here instead of a 
 
     check_congruence(a, b, phi)
 
-    get_public_keys(n, b)
-
     cipher = encrypt(message, n)
     decrypt(cipher, a, n)
+
+    return n, a
 
 def encrypt(message, n):
     encrypted = (message ** b) % n
@@ -87,12 +89,41 @@ def check_relatively_prime(a, b):
     else: 
         print("\n'%s' and '%s' are not relatively prime" % (a, b))
 
+def multiplicative_inverse_specific_power(x, power, n):
+    a = pow(x, power, n)
+
+    return a
+
+def sign_message(message, a, n):
+    signed_message = (message ** a) % n
+    print("\nThe signed message using this RSA-system is: %s" % signed_message)
+    return signed_message
+
+
+def verify_message(x, y, n):
+    res1 = multiplicative_inverse_specific_power(y, b, n)
+    res2 = x % n
+
+    if(res1 == res2):
+        print("\nThe message (%s, %s) is most likely from Bob" % (x, y))
+        return True
+
+    else: 
+        print("\nThe message (%s, %s) is NOT from Bob" % (x, y))
+        return False
+
 
 def main():
 
     message = 42
     
-    RSA(p, q, message)
+    n, a = RSA(p, q, message)
+
+    message_to_sign = 109
+    sign_message(message_to_sign, a, n)
+
+    x, y = 78, 394
+    verify_message(x, y, n) 
 
 
 if __name__ == '__main__':
