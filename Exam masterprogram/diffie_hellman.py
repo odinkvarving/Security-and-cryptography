@@ -1,26 +1,25 @@
 import random
 import hashlib
-import sys
 
-g=9
+n=9
 p=1001
 
 a=random.randint(5, 10)
 
 b=random.randint(10,20)
 
-A = (g**a) % p
-B = (g**b) % p
+A = (n**a) % p
+B = (n**b) % p
 
-print('g: ',g,' (a shared value), n: ',p, ' (a prime number)')
+print('n: ',n,' (a shared value), n: ',p, ' (a prime number)')
 
 print('\nAlice calculates:')
 print('a (Alice random): ',a)
-print('Alice value (A): ',A,' (g^a) mod p')
+print('Alice value (A): ',A,' (n^a) mod p')
 
 print('\nBob calculates:')
 print('b (Bob random): ',b)
-print('Bob value (B): ',B,' (g^b) mod p')
+print('Bob value (B): ',B,' (n^b) mod p')
 
 print('\nAlice calculates:')
 keyA=(B**a) % p
