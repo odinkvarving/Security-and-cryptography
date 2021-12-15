@@ -34,8 +34,13 @@ def extended_multiplicative_inverse(a, n):
     else:
         print("\nMultiplicative inverse of %s modulo %s using extended EGCD results in: \n%s\n" % (a, n, (x % n)))
         return x % n
-            
 
+def multiplicative_inverse_specific_power(x, power, n):
+    a = pow(x, power, n)
+
+    print("\nMultiplicative inverse of %s^%s modulo %s results in: \n%s\n" % (x, power, a))
+    return a
+            
 def main():
     print("Multiplicative inverses in multiplication table of 12 for modulo 12")
     multiplicative_inverse_table(1, 13)
@@ -49,7 +54,8 @@ def main():
 
     extended_multiplicative_inverse(7, 29)
 
-
+    multiplicative_inverse_specific_power(3, -5, 59)
+    
 
 if __name__ == "__main__":
     main()

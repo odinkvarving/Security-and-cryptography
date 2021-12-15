@@ -9,11 +9,11 @@ def simple_pollard(n, B, a):
     F = math.gcd(A - 1, n)
 
     if(F > 1):
-        print("\n'%s' was one of the factors of '%s' found by using B = '%s'\n" % (F, n, B))
+        print("\n'%s' was one of the factors of '%s' found by using B = '%s'" % (F, n, B))
         return F
 
     else:
-        print("\n'%s' was NOT one of the factors of '%s' found by using B = '%s'\n" % (F, n, B))
+        print("\n'%s' was NOT one of the factors of '%s' found by using B = '%s'" % (F, n, B))
         return 0
          
 def find_factors(n):
@@ -30,12 +30,8 @@ def find_factors(n):
    
         if (d > 1):
 
-            print("B used to find factorization: %s" % d)
-
             return d
-   
-            break
-   
+      
         i += 1
 
 def pollard(n):
@@ -75,11 +71,12 @@ def main():
     a2 = 2
 
     simple_pollard(n1, B1, a1)
-
+    simple_pollard(n2, B2, a2)  
+    
     pollard(18779)
     pollard(42583)
 
-    simple_pollard(n2, B2, a2)  
+    
 
 if __name__ == '__main__':
 	main()

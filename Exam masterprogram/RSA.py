@@ -4,11 +4,11 @@ import math
 
 p = 233
 q = 167
-e = 3
+b = 3
 
 def RSA(p, q, message):
 
-    print("\np is '%s', q is '%s' and e is '%s'" % (p, q, e))
+    print("\np is '%s', q is '%s' and b is '%s'" % (p, q, b))
 
     bin1 = bin(p)
     bin2 = bin(q)
@@ -19,50 +19,57 @@ def RSA(p, q, message):
     
     phi = (int(bin1, 2) - 1) * (int(bin2, 2) - 1)
 
-    check_relatively_prime(e, phi)
+    check_relatively_prime(b, phi)
 
-    d = multiplicative_inverse(e, phi)
+    a = multiplicative_inverse(b, phi)
 
-    check_congruence(d, e, phi)
+    check_congruence(a, b, phi)
 
-    get_public_keys(n, e)
+    get_public_keys(n, b)
 
     cipher = encrypt(message, n)
-    decrypt(cipher, d, n)
+    decrypt(cipher, a, n)
 
 def encrypt(message, n):
-    encrypted = (message ** e) % n
+    encrypted = (message ** b) % n
 
     print("\nThe encryption of '%s' gives us '%s'" % (message, encrypted))
     return encrypted
 
-def decrypt(cipher, d, n):
-    decrypted = (cipher ** d) % n
+def decrypt(cipher, a, n):
+    decrypted = (cipher ** a) % n
 
     print("\nThe decryption of '%s' gives us '%s'" % (cipher, decrypted))
     return decrypted
 
-def get_public_keys(n, e):
+def get_public_keys(n, b):
     public_key = []
 
     public_key.append(n)
-    public_key.append(e)
+    public_key.append(b)
     
-    print("\nThe public keys are '%s' and '%s'" % (public_key[0], public_key[1]))
+    print("\nThe public keys are 'n = %s' and 'b = %s'" % (public_key[0], public_key[1]))
     
 
-def check_congruence(d, e, phi):
-    if((d * e) % phi == 1):
-        print("\n'd * e' IS congruent with '1 (mod (p-1)(q-1))'")
+def check_congruence(a, b, phi):
+    if((a * b) % phi == 1):
+        print("\n'a * b' IS congruent with '1 (mod (p-1)(q-1))'")
 
     else: 
-        print("\n'd * e' is NOT congruent with '1 (mod (p-1)(q-1))'")
+        print("\n'a * b' is NOT congruent with '1 (mod (p-1)(q-1))'")
 
+# Choose either of the multiplicative-inverse functions
 def multiplicative_inverse(x, phi):
-    d = pow(x, -1, phi)
+    a = pow(x, -1, phi)
 
-    print("\nThe private key is '%s'" % d)
-    return d
+    print("\nThe private keys are 'p = %s', 'q = %s' and 'a = %s'" % (p, q, a))
+    return a
+
+def naive_multiplicative_inverse(a, n):
+    for x in range(0, n - 1):
+        if(((a * x) % n) == 1 % n):
+            print("\nThe private keys are 'p = %s', 'q = %s' and 'a = %s'" % (p, q, x))
+            return x
 
 def gcd(a, b):
     t = 0
