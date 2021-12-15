@@ -97,8 +97,8 @@ def decrypt(message, cipher):
 def main():
 
     encrypt("Snart helg", "torsk")
-    decrypt("QZQOBVCAFFKSDC", "brus")    
-
+    decrypt("QZQOBVCAFFKSDC", "brus")
+    
 
 if __name__ == "__main__":
     main()
