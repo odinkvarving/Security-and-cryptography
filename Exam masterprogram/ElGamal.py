@@ -7,12 +7,12 @@
 # Offentlig nøkkel: p = 29, alpha = 11, beta = 16
 # Privat nøkkel:    p = 29, alpha = 11, a = 8
 
-p = 19
-alpha = 13
-beta = 14
-k = 6
-x = 3
-a = 5
+p = 29
+alpha = 11
+beta = 16
+k = 3
+x = 4
+a = 8
 
 def encrypt(p, alpha, beta, k, x):
 

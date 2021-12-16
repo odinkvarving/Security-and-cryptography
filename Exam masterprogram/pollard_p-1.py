@@ -3,18 +3,32 @@ import sympy
 
 from RSA import gcd
 
-def simple_pollard(n, B, a):
-    A = (a ** (math.factorial(B))) % n
+def simple_pollard(n):
 
-    F = math.gcd(A - 1, n)
+    for b in range(0, 2 ** 32):  # The range at which B should run to can be adjusted (2^32 will find a quarter of all 64-bit factors and 1/27 of all 96-bit factors)
 
-    if(F > 1):
-        print("\n'%s' was one of the factors of '%s' found by using B = '%s'" % (F, n, B))
-        return F
+        A = (2 ** (math.factorial(b))) % n
 
+        F = math.gcd(A - 1, n)
+
+        if(F > 1):
+            print("\n'%s' was one of the prime factors of '%s' found by using b = '%s'" % (F, n, b))
+            return F
+
+def simple_pollard_V2(n, b):
+    a = 2
+    for j in range(2, b+1):
+        print("\na^j mod n => {}^{} mod {}: ".format(a, j, n))
+        a = (a**j) % n
+        print("a: ", a)
+
+    d = gcd(a-1, n)
+
+    if (d > 1 & d < n):
+        print("gcd of a-1: {} and n: {} = ".format(a, n), d)
+        print("{} is a prime factor of {}".format(d, n))
     else:
-        print("\n'%s' was NOT one of the factors of '%s' found by using B = '%s'" % (F, n, B))
-        return 0
+        print("No factors for n: {} and b: {}".format(n, b))
          
 def find_factors(n):
    
@@ -62,16 +76,17 @@ def pollard(n):
 
 def main():
 
-    n1 = 1829
-    B1 = 5
-    a1 = 2
+    n = 1829
 
     n2 = 6319
-    B2 = 7
-    a2 = 2
 
-    simple_pollard(n1, B1, a1)
-    simple_pollard(n2, B2, a2)  
+    # Can find prime factors of a number and which b was used to find it
+    simple_pollard(n)
+    simple_pollard(n2)  
+
+    b = 7   
+    # Can find prime factors of a number using a specific b, and prints the steps for finding it
+    simple_pollard_V2(n2, b)
     
     pollard(18779)
     pollard(42583)
