@@ -1,12 +1,6 @@
 import math
 
-# n = pq
-
-p = 23  
-q = 19
-b = 13  # e is also used here
-
-def RSA(p, q, message):
+def encrypt(p, q, b, message):
 
     print("\np is '%s', q is '%s' and b is '%s'" % (p, q, b))
 
@@ -21,37 +15,25 @@ def RSA(p, q, message):
 
     check_relatively_prime(b, phi)
 
-    get_public_keys(n, b)
+    print("\nThe public keys are 'n = %s' and 'b = %s'" % (n, b))
 
     a = multiplicative_inverse(b, phi)     # d is also used here instead of a 
 
+    print("\nThe private keys are 'p = %s', 'q = %s' and 'a = %s'" % (p, q, a))
+
     check_congruence(a, b, phi)
 
-    cipher = encrypt(message, n)
-    decrypt(cipher, a, n)
+    cipher = (message ** b) % n
 
-    return n, a
+    print("\nThe encryption of '%s' gives us '%s'" % (message, cipher))
 
-def encrypt(message, n):
-    encrypted = (message ** b) % n
-
-    print("\nThe encryption of '%s' gives us '%s'" % (message, encrypted))
-    return encrypted
+    return n, a, cipher
 
 def decrypt(cipher, a, n):
-    decrypted = (cipher ** a) % n
+    decrypted = (square_and_multiply(cipher, a)) % n
 
     print("\nThe decryption of '%s' gives us '%s'" % (cipher, decrypted))
     return decrypted
-
-def get_public_keys(n, b):
-    public_key = []
-
-    public_key.append(n)
-    public_key.append(b)
-    
-    print("\nThe public keys are 'n = %s' and 'b = %s'" % (public_key[0], public_key[1]))
-    
 
 def check_congruence(a, b, phi):
     if((a * b) % phi == 1):
@@ -63,15 +45,17 @@ def check_congruence(a, b, phi):
 # Choose either of the multiplicative-inverse functions
 def multiplicative_inverse(x, phi):
     a = pow(x, -1, phi)
-
-    print("\nThe private keys are 'p = %s', 'q = %s' and 'a = %s'" % (p, q, a))
     return a
 
 def naive_multiplicative_inverse(a, n):
     for x in range(0, n - 1):
         if(((a * x) % n) == 1 % n):
-            print("\nThe private keys are 'p = %s', 'q = %s' and 'a = %s'" % (p, q, x))
             return x
+
+def multiplicative_inverse_specific_power(x, power, n):
+    a = pow(x, power, n)
+
+    return a
 
 def gcd(a, b):
     t = 0
@@ -89,41 +73,71 @@ def check_relatively_prime(a, b):
     else: 
         print("\n'%s' and '%s' are not relatively prime" % (a, b))
 
-def multiplicative_inverse_specific_power(x, power, n):
-    a = pow(x, power, n)
-
-    return a
+def square_and_multiply(x, y):
+    exp = bin(y)
+    value = x
+ 
+    for i in range(3, len(exp)):
+      value = value * value
+      if(exp[i:i + 1] == '1'):
+        value = value * x
+    return value
 
 def sign_message(message, a, n):
     signed_message = (message ** a) % n
-    print("\nThe signed message using this RSA-system is: %s" % signed_message)
+    print("\nThe signed message using this encrypt-system is: %s" % signed_message)
     return signed_message
 
 
-def verify_message(x, y, n):
+def verify_message(x, y, n, b):
     res1 = multiplicative_inverse_specific_power(y, b, n)
     res2 = x % n
 
     if(res1 == res2):
-        print("\nThe message (%s, %s) is most likely from Bob" % (x, y))
+        print("\nThe message (%s, %s) is most likely from Alice" % (x, y))
         return True
 
     else: 
-        print("\nThe message (%s, %s) is NOT from Bob" % (x, y))
+        print("\nThe message (%s, %s) is NOT from Alice" % (x, y))
         return False
 
 
 def main():
 
+    p_alice = 17  
+    q_alice = 43
+    b_alice = 283  # e is also used here
     message = 42
+
+    # Alice generates her RSA-system
+    n_alice, a_alice, _, = encrypt(p_alice, q_alice, b_alice, message)
     
-    n, a = RSA(p, q, message)
-
+    # Alice signs a message to be sent to Bob with her own private key
     message_to_sign = 109
-    sign_message(message_to_sign, a, n)
+    signed_message = sign_message(message_to_sign, a_alice, n_alice)
+    
+    bob_p = 23
+    bob_q = 19
+    bob_b = 13
 
-    x, y = 78, 394
-    verify_message(x, y, n) 
+    # Bob generates his RSA-system
+    n_bob, a_bob, _, = encrypt(bob_p, bob_q, bob_b, message)
+
+    print("\nAlice encrypts the signed message with Bob's public key")
+    _, _, signed_encrypted_message = encrypt(bob_p, bob_q, bob_b, signed_message)
+    print("\nAlice encrypts the original message with Bob's public key")
+    _, _, encrypted_message = encrypt(bob_p, bob_q, bob_b, message_to_sign)
+
+
+    # Bob decrypts the signed and encrypted message from Alice with his own private key
+    decrypted_signed_bob = decrypt(signed_encrypted_message, a_bob, n_bob)
+    # Bob decrypts the original message from Alice with his own private key
+    decrypted_original_bob = decrypt(encrypted_message, a_bob, n_bob)
+   
+    x, y = decrypted_signed_bob, decrypted_original_bob
+
+    # Bob verifies that the message was sent from Alice with Alice's public key
+    verify_message(y, x, n_alice, b_alice) 
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 
-def exp_func(x, y):
+def square_and_multiply(x, y):
     exp = bin(y)
     print ("Binary value of b is:", exp)
     print ("Bit\tResult")
@@ -23,7 +23,7 @@ def main():
     print ("a =", a)
     print ("b =", b)
     print ("==== Calculation ====")
-    res = exp_func(a, b)
+    res = square_and_multiply(a, b)
     print ("Result: ", res)
 
     modulus = res % p
