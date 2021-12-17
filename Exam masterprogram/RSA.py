@@ -104,16 +104,16 @@ def verify_message(x, y, n, b):
 
 def main():
 
-    p_alice = 17  
-    q_alice = 43
-    b_alice = 283  # e is also used here
-    message = 42
+    p_alice = 13  
+    q_alice = 19
+    b_alice = 5  # e is also used here
+    message = 30
 
     # Alice generates her RSA-system
     n_alice, a_alice, _, = encrypt(p_alice, q_alice, b_alice, message)
     
     # Alice signs a message to be sent to Bob with her own private key
-    message_to_sign = 109
+    message_to_sign = 30
     signed_message = sign_message(message_to_sign, a_alice, n_alice)
     
     bob_p = 23

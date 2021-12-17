@@ -38,7 +38,7 @@ def extended_multiplicative_inverse(a, n):
 def multiplicative_inverse_specific_power(x, power, n):
     a = pow(x, power, n)
 
-    print("\nMultiplicative inverse of %s^%s modulo %s results in: \n%s\n" % (x, power, a))
+    print(a)
     return a
             
 def main():
@@ -55,6 +55,8 @@ def main():
     extended_multiplicative_inverse(7, 29)
 
     multiplicative_inverse_specific_power(3, -5, 59)
+
+    multiplicative_inverse_specific_power(5, -1, 216)
     
 
 if __name__ == "__main__":
